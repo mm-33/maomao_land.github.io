@@ -316,6 +316,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -345,7 +367,7 @@
       
         
           
-            <h1 id="Sicp-Unit-1"><a href="#Sicp-Unit-1" class="headerlink" title="Sicp Unit 1"></a>Sicp Unit 1</h1><p>先说题外话，当时了解SICP这本书是从萧大&lt; <a href="https://zhuanlan.zhihu.com/p/19959253" target="_blank" rel="noopener">编程入门指南</a> &gt;了解到的。总觉得自己不会组织代码、不会抽象，写的很乱很杂。于是抱着解决这种问题的态度入手了这本书，也入了Udacity上Peter Norvig老师的课<a href="https://cn.udacity.com/course/design-of-computer-programs--cs212" target="_blank" rel="noopener">SC212</a>。但不得不说，首先这两个材料想学有所成真的很难；其次它们解决我问题的方式和预想的也不大一样。（很多能力的获得并不是直接通过阅读，多实践思考反复练习才能获得一些更加重要的能力；也就是说本书并没有直接讨论相关的话题，而是通过在练习中去感悟得到相应经验。）</p>
+            <h1 id="Sicp-Chapter-1"><a href="#Sicp-Chapter-1" class="headerlink" title="Sicp Chapter 1"></a>Sicp Chapter 1</h1><p>先说题外话，当时了解SICP这本书是从萧大&lt; <a href="https://zhuanlan.zhihu.com/p/19959253" target="_blank" rel="noopener">编程入门指南</a> &gt;了解到的。总觉得自己不会组织代码、不会抽象，写的很乱很杂。于是抱着解决这种问题的态度入手了这本书，也入了Udacity上Peter Norvig老师的课<a href="https://cn.udacity.com/course/design-of-computer-programs--cs212" target="_blank" rel="noopener">SC212</a>。但不得不说，首先这两个材料想学有所成真的很难；其次它们解决我问题的方式和预想的也不大一样。（很多能力的获得并不是直接通过阅读，多实践思考反复练习才能获得一些更加重要的能力；也就是说本书并没有直接讨论相关的话题，而是通过在练习中去感悟得到相应经验。）</p>
 <p>本人博士生涯一直零敲碎打的学习编程，收效甚微。遇到的困难如下：</p>
 <ul>
 <li>自己写的代码十分杂乱，可读性差的一批，上午写完下午看着都头大</li>
@@ -353,18 +375,47 @@
 <li>阅读别人的代码没有重点，仿佛读天书；该起来更是无从下手</li>
 </ul>
 <p>而SICP则在前言中就告诉我们</p>
+<blockquote>
 <ul>
-<li><blockquote>
-<p>本书的目的是</p>
+<li>程序必须写的能够<strong>供人阅读</strong>。</li>
+<li>程序设计的核心是控制<strong>复杂度</strong>。</li>
+<li>当我们读别人代码时，哪些不用读，哪些不用理解。</li>
+</ul>
 </blockquote>
+<p>所以从这个角度而言，SICP更多的告诉了我们，在真正动手开始编程之前，我们应该做什么：怎么抽象、怎么表达、怎么控制复杂性。<br>这就是我所需要的，如何去分析表达问题，不仅是从数学方面、算法方面，也从工程实现方面，缜密、自然得解决问题。</p>
+<p>总之，SICP是一本值得反复阅读的多好书。下面就开始首次阅读记下的笔记。</p>
+<h2 id="Chapter1-Building-Abstractions-with-Procedures"><a href="#Chapter1-Building-Abstractions-with-Procedures" class="headerlink" title="Chapter1: Building Abstractions with Procedures."></a>Chapter1: Building Abstractions with Procedures.</h2><p>第一章讲的是<strong>过程的抽象</strong>，其核心是第二节的<strong>迭代与递归</strong>和第三节的<strong>高阶过程</strong>。</p>
+<p>迭代与递归为我们解决问题提供了有力的手段：只要能用递归描述问题，问题就被解决了；只要找到过程中的不变量，我们就可以用迭代解决问题。<br>在介绍这两种有力手段的过程中，我们也学习了如何估计算法的<strong>时间复杂度与空间复杂度</strong>，如何通过减小复杂度来<strong>优化算法</strong>。</p>
+<p>而高阶过程为我们提供了一个强有力的<strong>抽象工具</strong>：我们不仅可以将函数作为别的函数的输入，更能将函数作为别的函数的输出。这种思想在下面的例子中展现了极大的威力。</p>
+<p>首先是抽象求和，$\sum_{i = 1}^n = f(a_i)$，如何把这个公式用python function表示出来，是一个非常有趣的问题；进而，如何用这个公式简洁的表示出simpson积分公式也是很有意思；最后，抽象求和体现出<em>迭代与递归</em>的区别也引人深思。</p>
+<p>下面，就从从细节入手，简洁的介绍一下这一章的知识点。</p>
+<h3 id="1-迭代与递归"><a href="#1-迭代与递归" class="headerlink" title="1. 迭代与递归"></a>1. 迭代与递归</h3><p>二者皆为分步解决问题的利器，迭代<strong>空间复杂度</strong>小，而递归描述问题的方式更加<strong>自然简单</strong>。</p>
+<p>从代码实现的角度来看，二者区别如下：</p>
+<ul>
+<li><p>递归：</p>
+<ul>
+<li>结束迭代的终止值是固定的</li>
+<li>后面函数的返回值总要和前面函数的值作用</li>
+<li>仅有一个变量（能化简问题的变量）在向重点变动</li>
+</ul>
+</li>
+<li><p>迭代：</p>
+<ul>
+<li>结束迭代的就是最终结果</li>
+<li>后面函数的返回值直达最初调用函数，没有任何改变</li>
+<li>两个变量在变，化简问题的变量与result变量。</li>
+<li>半成品res永远作为参数向下一次调用传递。</li>
+</ul>
 </li>
 </ul>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>本书前三章分别是：</p>
-<ul>
-<li>构造过程抽象</li>
-<li>构造数据抽象</li>
-<li>模块化、对象和状态</li>
-</ul>
+<h4 id="1-1-Orders-of-Growth"><a href="#1-1-Orders-of-Growth" class="headerlink" title="1.1 Orders of Growth"></a>1.1 Orders of Growth</h4><p>看例题吧～</p>
+<h4 id="1-2-Exponentiation"><a href="#1-2-Exponentiation" class="headerlink" title="1.2 Exponentiation"></a>1.2 Exponentiation</h4><p>一个实际能体现迭代递归两种代码实现方式不同的例子。</p>
+<h4 id="1-3-Prime"><a href="#1-3-Prime" class="headerlink" title="1.3 Prime "></a>1.3 Prime </h4><p>体现了：一个函数只有一个目的，如何将函数组织起来？</p>
+<h3 id="2-高阶过程"><a href="#2-高阶过程" class="headerlink" title="2 高阶过程"></a>2 高阶过程</h3><h4 id="2-1-函数作为参数"><a href="#2-1-函数作为参数" class="headerlink" title="2.1 函数作为参数"></a>2.1 函数作为参数</h4><p>抽象：找到相同，找到不同。</p>
+<p>变量与结构对于解决问题的作用。</p>
+<p>next与filter。</p>
+<p>如何构造更抽象？</p>
+<p>如何应用抽象得到函数？</p>
 
           
         
@@ -1053,7 +1104,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1064,7 +1115,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">1</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
